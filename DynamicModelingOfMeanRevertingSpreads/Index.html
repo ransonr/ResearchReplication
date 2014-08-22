@@ -1,0 +1,32 @@
+---
+title: "Review of 'Dynamic Modeling of Mean-Reverting Spreads for Statistical Arbitrage'"
+author: "Ryan Ranson"
+date: "08/19/2014"
+output: html_document
+---
+
+# Overview
+
+This paper is available [here](http://arxiv.org/pdf/0808.1710.pdf).
+
+```{r preparation, message = FALSE}
+library(devtools)
+library(quantmod)
+
+source_url("https://raw.githubusercontent.com/ransonr/quantfin/master/R/PrefixTree.R")
+
+history <- getSymbols("TLT", auto.assign = FALSE)
+daily.returns <- dailyReturn(TLT, type = "log")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r, warning = FALSE}
+plot(history, main = "TLT Adjusted Closes")
+```
+
+Divide the data into quartiles.
+
+```{r}
+breaks <- quantile(daily.returns)
+```

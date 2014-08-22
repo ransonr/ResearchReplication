@@ -1,0 +1,7 @@
+base
+Defaults
+ggplot2
+quantmod
+TTR
+xts
+zoo

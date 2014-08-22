@@ -1,0 +1,45 @@
+---
+title: "Review of 'Dynamic Modeling of Mean-Reverting Spreads for Statistical Arbitrage'"
+author: "Ryan Ranson"
+date: "08/19/2014"
+output: html_document
+---
+
+# Overview
+
+This paper is available [here](http://arxiv.org/pdf/0808.1710.pdf).
+
+Obtain the data and see what it looks like.
+
+```{r preparation, message = FALSE, cache = FALSE}
+library(ggplot2)
+library(quantmod)
+
+data <- modelData(specifyModel(Ad(SPY) ~ Ad(IWM)))
+
+autoplot.zoo(data, facets = NULL) + xlab("Date")
+```
+
+Clearly these two series move together.
+
+$$y_t=\alpha+{p^{(i)}}_t-{\beta}{p^{(j)}}_t$$
+
+The spread is assumed to be defined by:
+
+$$x_t-x_{t-1}=a-bx_{t-1}+\epsilon_t$$
+
+where $0<b<2$. Rewriting this:
+
+$$x_t=a+(1-b)x_{t-1}+\epsilon_{t-1}=A+Bx_{t-1}+\epsilon_t$$
+
+$$y_t=x_t+\omega_t$$
+
+```{r spread_model}
+train.index <- 1:floor(nrow(data) * 0.5)
+spread.mdl <- lm(Ad.SPY ~ Ad.IWM, data[train.index, ])
+summary(spread.mdl)
+```
+
+```{r predictions}
+
+```
